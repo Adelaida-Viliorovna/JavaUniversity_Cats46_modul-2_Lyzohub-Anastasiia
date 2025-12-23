@@ -12,7 +12,9 @@ public class SimulationRunner {
     }
 
     public void run() {
-        mainMenu();
+        while (running) {
+            mainMenu();
+        }
     }
 
     private void mainMenu() {
@@ -35,9 +37,13 @@ public class SimulationRunner {
         switch (choice) {
             case 1 -> {
                 System.out.println("Running default simulation...");
+                running = false;
+
             }
             case 2 -> {
                 System.out.println("Running custom simulation...");
+                running = false;
+
             }
             case 0 -> {
                 System.out.println(EXIT_TEXT);
