@@ -1,7 +1,9 @@
 package com.ua.rush.modul2;
 
+import com.ua.rush.modul2.runner.SimulationRunner;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Module 2");
+        new SimulationRunner().run();
     }
 }
