@@ -7,9 +7,6 @@ public class SimulationRunner {
     private boolean running = true;
     private final Scanner scanner = new Scanner(System.in);
 
-    public SimulationRunner() {
-
-    }
 
     public void run() {
         while (running) {
@@ -47,6 +44,7 @@ public class SimulationRunner {
             }
             case 0 -> {
                 System.out.println(EXIT_TEXT);
+                scanner.close();
                 running = false;
             }
             default -> System.out.println("Invalid choice.");
