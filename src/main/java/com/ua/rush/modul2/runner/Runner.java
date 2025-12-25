@@ -2,7 +2,7 @@ package com.ua.rush.modul2.runner;
 
 import java.util.Scanner;
 
-public class SimulationRunner {
+public class Runner {
     public static final String EXIT_TEXT = "Exiting...";
     private boolean running = true;
     private final Scanner scanner = new Scanner(System.in);
