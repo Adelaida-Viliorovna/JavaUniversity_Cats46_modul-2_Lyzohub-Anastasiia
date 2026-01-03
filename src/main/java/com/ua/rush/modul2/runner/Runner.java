@@ -1,5 +1,9 @@
 package com.ua.rush.modul2.runner;
 
+import com.ua.rush.modul2.config.Settings;
+import com.ua.rush.modul2.simulation.Simulation;
+
+
 import java.util.Scanner;
 
 public class Runner {
@@ -34,6 +38,9 @@ public class Runner {
         switch (choice) {
             case 1 -> {
                 System.out.println("Running default simulation...");
+                Settings settings = Settings.defaultSettings();
+                Simulation simulation = new Simulation(settings);
+                simulation.start();
                 running = false;
 
             }
