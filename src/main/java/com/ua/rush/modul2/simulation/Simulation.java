@@ -2,6 +2,7 @@ package com.ua.rush.modul2.simulation;
 
 import com.ua.rush.modul2.config.Settings;
 import com.ua.rush.modul2.island.Island;
+import com.ua.rush.modul2.simulation.tasks.PlantGrowthTask;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -13,6 +14,9 @@ public class Simulation {
     private Island island;
     private ScheduledExecutorService executor;
     private final StatisticsPrinter printer = new StatisticsPrinter();
+    private final StatisticsWriter writer = new StatisticsWriter();
+
+    private int currentTick = 0;
 
     public Simulation(Settings settings) {
         this.settings = settings;
@@ -28,12 +32,19 @@ public class Simulation {
         island = new Island(
                 settings.getIslandWidth(),
                 settings.getIslandHeight(),
-                10 // дефолтна кількість рослин у клітинці
+                0 // дефолтна кількість рослин у клітинці
         );
     }
 
     private void startSimulationLoop() {
-        executor = Executors.newSingleThreadScheduledExecutor();
+        executor = Executors.newScheduledThreadPool(2);
+
+        executor.scheduleAtFixedRate(
+                new PlantGrowthTask(island),
+                0,
+                1,
+                TimeUnit.SECONDS
+        );
 
         executor.scheduleAtFixedRate(
                 this::simulationTick,
@@ -44,10 +55,19 @@ public class Simulation {
     }
 
     private void simulationTick() {
-        printer.print(island);
+        currentTick++;
+
+        String stats = printer.buildStatistics(island);
+        System.out.println(stats);
+        writer.write(stats);
+
+        if (currentTick >= settings.getMaxTicks()) {
+            stop();
+        }
     }
 
     public void stop() {
-        executor.shutdownNow();
+        System.out.println("Simulation finished after " + currentTick + " ticks");
+        executor.shutdown();
     }
 }

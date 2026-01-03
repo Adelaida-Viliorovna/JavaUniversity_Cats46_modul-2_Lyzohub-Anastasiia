@@ -14,36 +14,47 @@ public class StatisticsPrinter {
 
     private int tick = 0;
 
-    public void print(Island island) {
+    public String buildStatistics(Island island) {
         tick++;
 
-        System.out.println("Такт " + tick + ":");
-        System.out.println("\tРозмір острову: " +
-                island.getWidth() + "x" + island.getHeight());
+        StringBuilder sb = new StringBuilder();
 
+        sb.append("Такт ").append(tick).append(":\n");
+        sb.append("\tРозмір острову: ")
+                .append(island.getWidth()).append("x")
+                .append(island.getHeight()).append("\n");
+
+        // --- locations ---
         for (int x = 0; x < island.getWidth(); x++) {
             for (int y = 0; y < island.getHeight(); y++) {
-                printLocation(x, y, island.getLocation(x, y));
+                buildLocationStatistics(sb, x, y, island.getLocation(x, y));
             }
         }
 
-        System.out.println();
+        // --- maps ---
+        buildPlantMap(sb, island);
+        buildAnimalMaps(sb, island);
+
+        return sb.toString();
     }
 
-    private void printLocation(int x, int y, Location location) {
-        System.out.println("\tТочка " + x + "x" + y + ":");
-        System.out.println("\t\tРослини: " + location.getPlantCount());
-        printAnimals(location.getAnimals());
-        System.out.println("\t\tЩо відбулося на такті " + tick + ": ...");
+    // ---------------- helpers ----------------
+
+    private void buildLocationStatistics(StringBuilder sb, int x, int y, Location location) {
+        sb.append("\tТочка ").append(x).append("x").append(y).append(":\n");
+        sb.append("\t\tРослини: ").append(location.getPlantCount()).append("\n");
+
+        buildAnimalGroups(sb, location.getAnimals());
+
+        sb.append("\t\tЩо відбулося на такті ").append(tick).append(": ...\n");
     }
 
-    private void printAnimals(List<Animal> animals) {
+    private void buildAnimalGroups(StringBuilder sb, List<Animal> animals) {
         Map<String, Integer> herbivores = new HashMap<>();
         Map<String, Integer> predators = new HashMap<>();
 
         for (Animal animal : animals) {
             String name = animal.getClass().getSimpleName();
-
             if (animal instanceof Herbivore) {
                 herbivores.merge(name, 1, Integer::sum);
             } else if (animal instanceof Predator) {
@@ -51,21 +62,49 @@ public class StatisticsPrinter {
             }
         }
 
-        System.out.println("\t\tТварини:");
-
-        printGroup("Травоїдні", herbivores);
-        printGroup("Хижаки", predators);
+        sb.append("\t\tТварини:\n");
+        appendGroup(sb, "Травоядні", herbivores);
+        appendGroup(sb, "Хижаки", predators);
     }
 
-    private void printGroup(String title, Map<String, Integer> animals) {
-        if (animals.isEmpty()) {
-            System.out.println("\t\t\t" + title + ": немає");
+    private void appendGroup(StringBuilder sb, String title, Map<String, Integer> group) {
+        sb.append("\t\t\t").append(title).append(": ");
+        if (group.isEmpty()) {
+            sb.append("немає\n");
             return;
         }
+        group.forEach((name, count) ->
+                sb.append(name).append(" - ").append(count).append(", "));
+        sb.setLength(sb.length() - 2); // прибрати ", "
+        sb.append("\n");
+    }
 
-        System.out.print("\t\t\t" + title + ": ");
-        animals.forEach((name, count) ->
-                System.out.print(name + " - " + count + " "));
-        System.out.println();
+    // ---------------- maps ----------------
+
+    private void buildPlantMap(StringBuilder sb, Island island) {
+        sb.append("\n\tКарта рослин:\n");
+        for (int y = 0; y < island.getHeight(); y++) {
+            sb.append("\t");
+            for (int x = 0; x < island.getWidth(); x++) {
+                sb.append("[")
+                        .append(island.getLocation(x, y).getPlantCount())
+                        .append("]");
+            }
+            sb.append("\n");
+        }
+    }
+
+    private void buildAnimalMaps(StringBuilder sb, Island island) {
+        // поки загальна карта тварин (пізніше можна розширити по видах)
+        sb.append("\n\tКарта тварин:\n");
+        for (int y = 0; y < island.getHeight(); y++) {
+            sb.append("\t");
+            for (int x = 0; x < island.getWidth(); x++) {
+                sb.append("[")
+                        .append(island.getLocation(x, y).getAnimals().size())
+                        .append("]");
+            }
+            sb.append("\n");
+        }
     }
 }
