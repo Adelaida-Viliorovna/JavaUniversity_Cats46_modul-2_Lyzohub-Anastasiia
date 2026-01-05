@@ -2,6 +2,9 @@ package com.ua.rush.modul2.island;
 
 import com.ua.rush.modul2.model.location.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Island {
 
     private final int width;
@@ -39,5 +42,15 @@ public class Island {
 
     public int getHeight() {
         return height;
+    }
+
+    public List<Location> getAllLocations() {
+        List<Location> result = new ArrayList<>(width * height);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                result.add(locations[x][y]);
+            }
+        }
+        return result;
     }
 }

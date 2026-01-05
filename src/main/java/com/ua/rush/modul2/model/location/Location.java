@@ -25,7 +25,9 @@ public class Location {
     }
 
     public List<Animal> getAnimals() {
-        return Collections.unmodifiableList(animals);
+        // return a snapshot copy to avoid ConcurrentModificationException
+        // when other threads modify the underlying list concurrently
+        return Collections.unmodifiableList(new ArrayList<>(animals));
     }
 
     // --- plants ---
@@ -47,4 +49,5 @@ public class Location {
             }
         }
     }
+
 }

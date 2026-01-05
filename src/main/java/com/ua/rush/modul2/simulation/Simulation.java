@@ -2,8 +2,11 @@ package com.ua.rush.modul2.simulation;
 
 import com.ua.rush.modul2.config.Settings;
 import com.ua.rush.modul2.island.Island;
+import com.ua.rush.modul2.model.animal.Caterpillar;
+import com.ua.rush.modul2.simulation.tasks.CaterpillarTask;
 import com.ua.rush.modul2.simulation.tasks.PlantGrowthTask;
 
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +28,7 @@ public class Simulation {
     public void start() {
         System.out.println("Simulation started");
         initWorld();
+        initCaterpillars();
         startSimulationLoop();
     }
 
@@ -32,15 +36,34 @@ public class Simulation {
         island = new Island(
                 settings.getIslandWidth(),
                 settings.getIslandHeight(),
-                0 // дефолтна кількість рослин у клітинці
+                settings.getInitialPlantsPerLocation()
+//                settings.getInitialCaterpillars()
         );
     }
 
+    private void initCaterpillars() {
+        Random random = new Random();
+
+        for (int i = 0; i < settings.getInitialCaterpillars(); i++) {
+            int x = random.nextInt(island.getWidth());
+            int y = random.nextInt(island.getHeight());
+            island.getLocation(x, y).addAnimal(new Caterpillar());
+        }
+    }
+
     private void startSimulationLoop() {
-        executor = Executors.newScheduledThreadPool(2);
+        // Need at least 3 threads: plant growth, caterpillar task, and simulation tick
+        executor = Executors.newScheduledThreadPool(3);
 
         executor.scheduleAtFixedRate(
                 new PlantGrowthTask(island),
+                0,
+                1,
+                TimeUnit.SECONDS
+        );
+
+        executor.scheduleAtFixedRate(
+                new CaterpillarTask(island),
                 0,
                 1,
                 TimeUnit.SECONDS

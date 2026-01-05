@@ -33,7 +33,9 @@ public class StatisticsPrinter {
 
         // --- maps ---
         buildPlantMap(sb, island);
-        buildAnimalMaps(sb, island);
+        buildAnimalMapByType(sb, island,
+                com.ua.rush.modul2.model.animal.Caterpillar.class,
+                "Карта гусені");
 
         return sb.toString();
     }
@@ -75,7 +77,7 @@ public class StatisticsPrinter {
         }
         group.forEach((name, count) ->
                 sb.append(name).append(" - ").append(count).append(", "));
-        sb.setLength(sb.length() - 2); // прибрати ", "
+        sb.setLength(sb.length() - 2);
         sb.append("\n");
     }
 
@@ -94,17 +96,28 @@ public class StatisticsPrinter {
         }
     }
 
-    private void buildAnimalMaps(StringBuilder sb, Island island) {
-        // поки загальна карта тварин (пізніше можна розширити по видах)
-        sb.append("\n\tКарта тварин:\n");
+    private void buildAnimalMapByType(StringBuilder sb,
+                                      Island island,
+                                      Class<? extends Animal> animalClass,
+                                      String title) {
+
+        sb.append("\n\t").append(title).append(":\n");
+
         for (int y = 0; y < island.getHeight(); y++) {
             sb.append("\t");
             for (int x = 0; x < island.getWidth(); x++) {
-                sb.append("[")
-                        .append(island.getLocation(x, y).getAnimals().size())
-                        .append("]");
+                long count = island.getLocation(x, y)
+                        .getAnimals()
+                        .stream()
+                        .filter(animalClass::isInstance)
+                        .count();
+
+                sb.append("[").append(count).append("]");
             }
             sb.append("\n");
         }
     }
+
+
+
 }

@@ -1,5 +1,7 @@
 package com.ua.rush.modul2.model.animal;
 
+import com.ua.rush.modul2.model.location.Location;
+
 public abstract class Animal {
 
     protected final double weight;
@@ -9,6 +11,8 @@ public abstract class Animal {
 
     protected double currentFood;
     protected boolean alive = true;
+
+    protected int age = 0;
 
     protected Animal(double weight,
                      int maxOnLocation,
@@ -22,9 +26,14 @@ public abstract class Animal {
     }
 
     // --- behavior ---
-    public abstract void eat();
-    public abstract void move();
-    public abstract void reproduce();
+    public abstract void eat(Location location);
+    public abstract void move(Location location);
+    public abstract void reproduce(Location location);
+    public abstract void liveTick(Location location);
+
+    public void incrementAge() {
+        age++;
+    }
 
     // --- life cycle ---
     public boolean isAlive() {
@@ -34,6 +43,7 @@ public abstract class Animal {
     protected void die() {
         alive = false;
     }
+
 
     // --- hunger logic ---
     protected void reduceFood(double amount) {
@@ -63,5 +73,6 @@ public abstract class Animal {
     public double getFoodNeeded() {
         return foodNeeded;
     }
+
 }
 

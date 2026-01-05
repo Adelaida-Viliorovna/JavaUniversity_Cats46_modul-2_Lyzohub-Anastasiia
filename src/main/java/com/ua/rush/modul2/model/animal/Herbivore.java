@@ -1,5 +1,7 @@
 package com.ua.rush.modul2.model.animal;
 
+import com.ua.rush.modul2.model.location.Location;
+
 public abstract class Herbivore extends Animal {
 
     protected Herbivore(double weight,
@@ -10,10 +12,11 @@ public abstract class Herbivore extends Animal {
     }
 
     @Override
-    public void eat() {
+    public void eat(Location location) {
         // Загальна логіка травоїдного:
         // 1. якщо є рослини — їсти
         // 2. збільшити ситість
-        // TODO: реалізуємо, коли зʼявиться Location
     }
+
+
 }
