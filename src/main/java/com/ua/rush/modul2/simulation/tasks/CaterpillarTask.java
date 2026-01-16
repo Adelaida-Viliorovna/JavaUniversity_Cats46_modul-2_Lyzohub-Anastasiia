@@ -1,7 +1,6 @@
 package com.ua.rush.modul2.simulation.tasks;
 
 import com.ua.rush.modul2.island.Island;
-import com.ua.rush.modul2.model.animal.Animal;
 import com.ua.rush.modul2.model.animal.Caterpillar;
 import com.ua.rush.modul2.model.location.Location;
 
@@ -21,8 +20,8 @@ public class CaterpillarTask implements Runnable {
         for (Location location : island.getAllLocations()) {
 
             List<Caterpillar> caterpillars = location.getAnimals().stream()
-                    .filter(a -> a instanceof Caterpillar)
-                    .map(a -> (Caterpillar) a)
+                    .filter(Caterpillar.class::isInstance)
+                    .map(Caterpillar.class::cast)
                     .toList();
 
             // життєвий цикл
@@ -44,4 +43,3 @@ public class CaterpillarTask implements Runnable {
 
     }
 }
-

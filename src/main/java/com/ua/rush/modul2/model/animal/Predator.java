@@ -7,8 +7,9 @@ public abstract class Predator extends Animal {
     protected Predator(double weight,
                        int maxOnLocation,
                        int speed,
-                       double foodNeeded) {
-        super(weight, maxOnLocation, speed, foodNeeded);
+                       double foodNeeded,
+                       int maxAge) {
+        super(weight, maxOnLocation, speed, foodNeeded, maxAge);
     }
 
     @Override

@@ -20,6 +20,7 @@ public class Simulation {
     private final StatisticsWriter writer = new StatisticsWriter();
 
     private int currentTick = 0;
+    private final Random random = new Random();
 
     public Simulation(Settings settings) {
         this.settings = settings;
@@ -42,7 +43,6 @@ public class Simulation {
     }
 
     private void initCaterpillars() {
-        Random random = new Random();
 
         for (int i = 0; i < settings.getInitialCaterpillars(); i++) {
             int x = random.nextInt(island.getWidth());
@@ -80,7 +80,7 @@ public class Simulation {
     private void simulationTick() {
         currentTick++;
 
-        String stats = printer.buildStatistics(island);
+        String stats = printer.buildStatistics(island, currentTick);
         System.out.println(stats);
         writer.write(stats);
 

@@ -2,7 +2,6 @@ package com.ua.rush.modul2.simulation;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 public class StatisticsWriter {
 
@@ -19,4 +18,3 @@ public class StatisticsWriter {
         }
     }
 }
-

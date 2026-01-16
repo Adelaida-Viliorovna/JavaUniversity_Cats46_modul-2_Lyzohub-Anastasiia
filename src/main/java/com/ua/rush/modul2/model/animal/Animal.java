@@ -4,6 +4,7 @@ import com.ua.rush.modul2.model.location.Location;
 
 public abstract class Animal {
 
+    protected final int maxAge;
     protected final double weight;
     protected final int maxOnLocation;
     protected final int speed;
@@ -17,11 +18,13 @@ public abstract class Animal {
     protected Animal(double weight,
                      int maxOnLocation,
                      int speed,
-                     double foodNeeded) {
+                     double foodNeeded,
+                     int maxAge) {
         this.weight = weight;
         this.maxOnLocation = maxOnLocation;
         this.speed = speed;
         this.foodNeeded = foodNeeded;
+        this.maxAge = maxAge;
         this.currentFood = foodNeeded; // стартує ситим
     }
 
@@ -29,7 +32,16 @@ public abstract class Animal {
     public abstract void eat(Location location);
     public abstract void move(Location location);
     public abstract void reproduce(Location location);
-    public abstract void liveTick(Location location);
+
+    public void liveTick(Location location){
+        incrementAge();
+
+        eat(location);
+
+        if (age >= maxAge) {
+            die(location);
+        }
+    }
 
     public void incrementAge() {
         age++;
@@ -40,16 +52,17 @@ public abstract class Animal {
         return alive;
     }
 
-    protected void die() {
+    protected void die(Location location) {
         alive = false;
+        location.removeAnimal(this);
     }
 
 
     // --- hunger logic ---
-    protected void reduceFood(double amount) {
+    protected void reduceFood(double amount, Location location) {
         currentFood -= amount;
         if (currentFood <= 0) {
-            die();
+            die(location);
         }
     }
 
@@ -75,4 +88,3 @@ public abstract class Animal {
     }
 
 }
-

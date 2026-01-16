@@ -1,23 +1,17 @@
 package com.ua.rush.modul2.model.animal;
 
 import com.ua.rush.modul2.model.location.Location;
-
+//Гусінь — травоїдна тварина
 public class Caterpillar extends Herbivore {
 
-    public static final double WEIGHT = 0.01;
     public static final int MAX_ON_LOCATION = 1000;
-    private static final int MAX_AGE = 3;
 
     public Caterpillar() {
-        super(WEIGHT, MAX_ON_LOCATION, 0, 0);
-    }
-
-    public void growOlder() {
-        age++;
-    }
-
-    public boolean shouldDie() {
-        return age >= 3;
+        super(0.01,
+                1000,
+                0,
+                0,
+                3);
     }
 
     @Override
@@ -29,38 +23,23 @@ public class Caterpillar extends Herbivore {
 
     @Override
     public void liveTick(Location location) {
-        incrementAge();
+        age++;
 
         eat(location);
 
-        if (age >= MAX_AGE) {
+        if (age >= maxAge) {
             die(location);
         }
-    }
-
-    private void die(Location location) {
-        alive = false;
-        location.removeAnimal(this);
-    }
-
-    @Override
-    public void reproduce(Location location) {
-        long count = location.getAnimals().stream()
-                .filter(a -> a instanceof Caterpillar)
-                .count();
-
-//        if (count >= 2) {
-//            int newborns = (int) (count / 2);
-//            for (int i = 0; i < newborns; i++) {
-//                if (count + i < maxOnLocation) {
-//                    location.addAnimal(new Caterpillar());
-//                }
-//            }
-//        }
     }
 
     @Override
     public void move(Location location) {
         // не рухається
+    }
+
+    @Override
+    public void reproduce(Location location) {
+        // Розмноження керується завданням `CaterpillarTask` на рівні локації,
+        // тому тут немає локальної реалізації — метод залишений порожнім умисно.
     }
 }
