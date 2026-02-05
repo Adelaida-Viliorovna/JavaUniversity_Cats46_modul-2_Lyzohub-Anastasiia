@@ -1,0 +1,399 @@
+
+=== STATISTICS [TICK 0] ===
+Plants 🌿: 450000
+🐺 WOLF: 38
+🐍 BOA: 30
+🦊 FOX: 50
+🐻 BEAR: 30
+🦅 EAGLE: 46
+🐎 HORSE: 37
+🦌 DEER: 23
+🐇 RABBIT: 165
+🐁 MOUSE: 98
+🐐 GOAT: 38
+🐑 SHEEP: 24
+🐗 BOAR: 47
+🐂 BUFFALO: 50
+🦆 DUCK: 108
+🐛 CATERPILLAR: 316
+==============================
+
+=== STATISTICS [TICK 1] ===
+Plants 🌿: 180000
+🐺 WOLF: 39
+🐍 BOA: 31
+🦊 FOX: 50
+🐻 BEAR: 30
+🦅 EAGLE: 46
+🐎 HORSE: 37
+🦌 DEER: 23
+🐇 RABBIT: 190
+🐁 MOUSE: 101
+🐐 GOAT: 38
+🐑 SHEEP: 24
+🐗 BOAR: 47
+🐂 BUFFALO: 50
+🦆 DUCK: 124
+🐛 CATERPILLAR: 376
+==============================
+
+=== STATISTICS [TICK 2] ===
+Plants 🌿: 179471
+🐺 WOLF: 40
+🐍 BOA: 30
+🦊 FOX: 51
+🐻 BEAR: 30
+🦅 EAGLE: 46
+🐎 HORSE: 37
+🦌 DEER: 22
+🐇 RABBIT: 186
+🐁 MOUSE: 101
+🐐 GOAT: 38
+🐑 SHEEP: 21
+🐗 BOAR: 47
+🐂 BUFFALO: 52
+🦆 DUCK: 126
+🐛 CATERPILLAR: 539
+==============================
+
+=== STATISTICS [TICK 3] ===
+Plants 🌿: 178993
+🐺 WOLF: 39
+🐍 BOA: 29
+🦊 FOX: 53
+🐻 BEAR: 30
+🦅 EAGLE: 45
+🐎 HORSE: 37
+🦌 DEER: 22
+🐇 RABBIT: 194
+🐁 MOUSE: 95
+🐐 GOAT: 40
+🐑 SHEEP: 21
+🐗 BOAR: 46
+🐂 BUFFALO: 51
+🦆 DUCK: 123
+🐛 CATERPILLAR: 720
+==============================
+
+=== STATISTICS [TICK 4] ===
+Plants 🌿: 179028
+🐺 WOLF: 40
+🐍 BOA: 28
+🦊 FOX: 51
+🐻 BEAR: 30
+🦅 EAGLE: 44
+🐎 HORSE: 37
+🦌 DEER: 22
+🐇 RABBIT: 201
+🐁 MOUSE: 91
+🐐 GOAT: 40
+🐑 SHEEP: 21
+🐗 BOAR: 46
+🐂 BUFFALO: 53
+🦆 DUCK: 124
+🐛 CATERPILLAR: 1442
+==============================
+
+=== STATISTICS [TICK 5] ===
+Plants 🌿: 178384
+🐺 WOLF: 39
+🐍 BOA: 26
+🦊 FOX: 51
+🐻 BEAR: 30
+🦅 EAGLE: 45
+🐎 HORSE: 38
+🦌 DEER: 22
+🐇 RABBIT: 196
+🐁 MOUSE: 79
+🐐 GOAT: 42
+🐑 SHEEP: 21
+🐗 BOAR: 46
+🐂 BUFFALO: 54
+🦆 DUCK: 125
+🐛 CATERPILLAR: 2921
+==============================
+
+=== STATISTICS [TICK 6] ===
+Plants 🌿: 176446
+🐺 WOLF: 40
+🐍 BOA: 22
+🦊 FOX: 48
+🐻 BEAR: 29
+🦅 EAGLE: 46
+🐎 HORSE: 38
+🦌 DEER: 18
+🐇 RABBIT: 193
+🐁 MOUSE: 72
+🐐 GOAT: 42
+🐑 SHEEP: 21
+🐗 BOAR: 45
+🐂 BUFFALO: 54
+🦆 DUCK: 123
+🐛 CATERPILLAR: 6209
+==============================
+
+=== STATISTICS [TICK 7] ===
+Plants 🌿: 174924
+🐺 WOLF: 38
+🐍 BOA: 20
+🦊 FOX: 48
+🐻 BEAR: 29
+🦅 EAGLE: 44
+🐎 HORSE: 38
+🦌 DEER: 18
+🐇 RABBIT: 201
+🐁 MOUSE: 51
+🐐 GOAT: 40
+🐑 SHEEP: 21
+🐗 BOAR: 46
+🐂 BUFFALO: 53
+🦆 DUCK: 129
+🐛 CATERPILLAR: 12041
+==============================
+
+=== STATISTICS [TICK 8] ===
+Plants 🌿: 174675
+🐺 WOLF: 37
+🐍 BOA: 17
+🦊 FOX: 45
+🐻 BEAR: 27
+🦅 EAGLE: 41
+🐎 HORSE: 38
+🦌 DEER: 18
+🐇 RABBIT: 190
+🐁 MOUSE: 43
+🐐 GOAT: 39
+🐑 SHEEP: 22
+🐗 BOAR: 44
+🐂 BUFFALO: 53
+🦆 DUCK: 129
+🐛 CATERPILLAR: 15813
+==============================
+
+=== STATISTICS [TICK 9] ===
+Plants 🌿: 174132
+🐺 WOLF: 34
+🐍 BOA: 16
+🦊 FOX: 44
+🐻 BEAR: 26
+🦅 EAGLE: 41
+🐎 HORSE: 38
+🦌 DEER: 16
+🐇 RABBIT: 188
+🐁 MOUSE: 35
+🐐 GOAT: 37
+🐑 SHEEP: 22
+🐗 BOAR: 40
+🐂 BUFFALO: 53
+🦆 DUCK: 134
+🐛 CATERPILLAR: 17748
+==============================
+
+=== STATISTICS [TICK 10] ===
+Plants 🌿: 174420
+🐺 WOLF: 34
+🐍 BOA: 15
+🦊 FOX: 43
+🐻 BEAR: 26
+🦅 EAGLE: 40
+🐎 HORSE: 37
+🦌 DEER: 15
+🐇 RABBIT: 185
+🐁 MOUSE: 29
+🐐 GOAT: 37
+🐑 SHEEP: 24
+🐗 BOAR: 38
+🐂 BUFFALO: 51
+🦆 DUCK: 131
+🐛 CATERPILLAR: 20424
+==============================
+
+=== STATISTICS [TICK 11] ===
+Plants 🌿: 174219
+🐺 WOLF: 35
+🐍 BOA: 15
+🦊 FOX: 40
+🐻 BEAR: 26
+🦅 EAGLE: 41
+🐎 HORSE: 36
+🦌 DEER: 15
+🐇 RABBIT: 198
+🐁 MOUSE: 21
+🐐 GOAT: 34
+🐑 SHEEP: 21
+🐗 BOAR: 38
+🐂 BUFFALO: 47
+🦆 DUCK: 125
+🐛 CATERPILLAR: 21060
+==============================
+
+=== STATISTICS [TICK 12] ===
+Plants 🌿: 174283
+🐺 WOLF: 34
+🐍 BOA: 13
+🦊 FOX: 41
+🐻 BEAR: 26
+🦅 EAGLE: 41
+🐎 HORSE: 36
+🦌 DEER: 15
+🐇 RABBIT: 216
+🐁 MOUSE: 14
+🐐 GOAT: 31
+🐑 SHEEP: 20
+🐗 BOAR: 38
+🐂 BUFFALO: 45
+🦆 DUCK: 129
+🐛 CATERPILLAR: 21806
+==============================
+
+=== STATISTICS [TICK 13] ===
+Plants 🌿: 174577
+🐺 WOLF: 35
+🐍 BOA: 11
+🦊 FOX: 40
+🐻 BEAR: 25
+🦅 EAGLE: 39
+🐎 HORSE: 34
+🦌 DEER: 15
+🐇 RABBIT: 231
+🐁 MOUSE: 12
+🐐 GOAT: 31
+🐑 SHEEP: 18
+🐗 BOAR: 36
+🐂 BUFFALO: 45
+🦆 DUCK: 133
+🐛 CATERPILLAR: 22000
+==============================
+
+=== STATISTICS [TICK 14] ===
+Plants 🌿: 174406
+🐺 WOLF: 34
+🐍 BOA: 11
+🦊 FOX: 40
+🐻 BEAR: 25
+🦅 EAGLE: 37
+🐎 HORSE: 34
+🦌 DEER: 15
+🐇 RABBIT: 255
+🐁 MOUSE: 12
+🐐 GOAT: 30
+🐑 SHEEP: 17
+🐗 BOAR: 34
+🐂 BUFFALO: 41
+🦆 DUCK: 133
+🐛 CATERPILLAR: 21997
+==============================
+
+=== STATISTICS [TICK 15] ===
+Plants 🌿: 174568
+🐺 WOLF: 34
+🐍 BOA: 10
+🦊 FOX: 40
+🐻 BEAR: 24
+🦅 EAGLE: 35
+🐎 HORSE: 34
+🦌 DEER: 15
+🐇 RABBIT: 281
+🐁 MOUSE: 11
+🐐 GOAT: 26
+🐑 SHEEP: 17
+🐗 BOAR: 34
+🐂 BUFFALO: 41
+🦆 DUCK: 128
+🐛 CATERPILLAR: 21929
+==============================
+
+=== STATISTICS [TICK 16] ===
+Plants 🌿: 174338
+🐺 WOLF: 33
+🐍 BOA: 10
+🦊 FOX: 38
+🐻 BEAR: 22
+🦅 EAGLE: 34
+🐎 HORSE: 32
+🦌 DEER: 14
+🐇 RABBIT: 324
+🐁 MOUSE: 10
+🐐 GOAT: 25
+🐑 SHEEP: 17
+🐗 BOAR: 32
+🐂 BUFFALO: 43
+🦆 DUCK: 133
+🐛 CATERPILLAR: 21995
+==============================
+
+=== STATISTICS [TICK 17] ===
+Plants 🌿: 174312
+🐺 WOLF: 33
+🐍 BOA: 10
+🦊 FOX: 37
+🐻 BEAR: 22
+🦅 EAGLE: 33
+🐎 HORSE: 32
+🦌 DEER: 13
+🐇 RABBIT: 376
+🐁 MOUSE: 8
+🐐 GOAT: 24
+🐑 SHEEP: 15
+🐗 BOAR: 30
+🐂 BUFFALO: 45
+🦆 DUCK: 133
+🐛 CATERPILLAR: 21999
+==============================
+
+=== STATISTICS [TICK 18] ===
+Plants 🌿: 174298
+🐺 WOLF: 32
+🐍 BOA: 8
+🦊 FOX: 37
+🐻 BEAR: 20
+🦅 EAGLE: 32
+🐎 HORSE: 32
+🦌 DEER: 13
+🐇 RABBIT: 451
+🐁 MOUSE: 8
+🐐 GOAT: 23
+🐑 SHEEP: 15
+🐗 BOAR: 29
+🐂 BUFFALO: 44
+🦆 DUCK: 133
+🐛 CATERPILLAR: 21996
+==============================
+
+=== STATISTICS [TICK 19] ===
+Plants 🌿: 174491
+🐺 WOLF: 32
+🐍 BOA: 8
+🦊 FOX: 33
+🐻 BEAR: 19
+🦅 EAGLE: 33
+🐎 HORSE: 28
+🦌 DEER: 12
+🐇 RABBIT: 570
+🐁 MOUSE: 5
+🐐 GOAT: 24
+🐑 SHEEP: 13
+🐗 BOAR: 29
+🐂 BUFFALO: 45
+🦆 DUCK: 128
+🐛 CATERPILLAR: 21872
+==============================
+
+=== STATISTICS [TICK 20] ===
+Plants 🌿: 174396
+🐺 WOLF: 32
+🐍 BOA: 7
+🦊 FOX: 33
+🐻 BEAR: 17
+🦅 EAGLE: 29
+🐎 HORSE: 27
+🦌 DEER: 11
+🐇 RABBIT: 724
+🐁 MOUSE: 2
+🐐 GOAT: 22
+🐑 SHEEP: 12
+🐗 BOAR: 28
+🐂 BUFFALO: 44
+🦆 DUCK: 131
+🐛 CATERPILLAR: 21999
+==============================
