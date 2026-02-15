@@ -3,13 +3,20 @@ package com.ua.rush.modul2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Simulation {
+    private static final Logger LOGGER = Logger.getLogger(Simulation.class.getName());
+
+    // Налаштування симуляції
     private final Settings settings;
+
+    // Острів, на якому виконується симуляція
     private Island island;
+
+    // Пул потоків для задач тварин
     private final ExecutorService executorService;
 
     public Simulation(Settings settings) {
@@ -17,38 +24,64 @@ public class Simulation {
         this.executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
+    // Запускає симуляцію: ініціалізація, планування тиков і запис статистики
     public void start() {
         initIsland();
-
         String fileName = settings.getFileName();
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+        ScheduledExecutorService mainScheduledPool = Executors.newScheduledThreadPool(1);
 
+        AtomicInteger currentTick = new AtomicInteger(1);
+
+        try {
+            java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.FileWriter(fileName));
             StatisticsPrinter.print(island, 0, writer);
 
-            for (int tick = 1; tick <= settings.getMaxTicks(); tick++) {
+            Runnable tickTask = () -> {
+                int tick = currentTick.getAndIncrement();
+
+                if (tick > settings.getMaxTicks()) {
+                    mainScheduledPool.shutdown();
+                    executorService.shutdown();
+
+                    try {
+                        writer.close();
+                    } catch (java.io.IOException e) {
+                        LOGGER.log(Level.SEVERE, "Помилка закриття файлу", e);
+                    }
+                    LOGGER.info("Симуляцію завершено!");
+                    return;
+                }
+
                 island.resetAnimalsFlags();
                 runAnimalTasks();
                 runReproductionTasks();
                 runPlantTasks();
 
                 StatisticsPrinter.print(island, tick, writer);
+            };
 
-                sleepTick();
-            }
+            mainScheduledPool.scheduleAtFixedRate(
+                    tickTask,
+                    0,
+                    settings.getTickDurationMs(),
+                    TimeUnit.MILLISECONDS
+            );
 
-        } catch (IOException e) {
-            System.err.println("Не вдалося створити файл звіту: " + e.getMessage());
+        } catch (java.io.IOException e) {
+            LOGGER.log(Level.SEVERE, "Не вдалося створити файл звіту", e);
+            mainScheduledPool.shutdown();
+            executorService.shutdown();
         }
-
-        executorService.shutdown();
     }
 
+    // Ініціалізує острів та стартові тварини
     private void initIsland() {
-        island = new Island(settings.getIslandWidth(), settings.getIslandHeight(), 500);
+        island = new Island(settings.getIslandWidth(), settings.getIslandHeight(), settings.getInitialPlants());
         initAnimals();
     }
 
+    // Розміщує початкові популяції тварин по острову
     private void initAnimals() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         for (Type type : Type.values()) {
@@ -58,10 +91,10 @@ public class Simulation {
             int maxInit = 50;
 
             if (type == Type.CATERPILLAR) {
-                minInit = 200; // Гусені треба БАГАТО
+                minInit = 200;
                 maxInit = 500;
             } else if (type == Type.MOUSE || type == Type.RABBIT || type == Type.DUCK) {
-                minInit = 50; // Мишей та кролів теж більше
+                minInit = 50;
                 maxInit = 200;
             }
 
@@ -73,92 +106,50 @@ public class Simulation {
                 Location loc = island.getLocation(x, y);
 
                 if (loc.getAnimalCount(type) < type.getMaxCount()) {
-                    loc.addAnimal(createAnimal(type));
-                    created++;
+                    Animal a = AnimalFactory.create(type);
+                    if (a != null) {
+                        loc.addAnimal(a);
+                        created++;
+                    }
                 }
             }
         }
     }
 
+    // Викликає логіку розмноження для кожної групи тварин у локації
     private void runReproductionTasks() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
         for (int y = 0; y < island.getHeight(); y++) {
             for (int x = 0; x < island.getWidth(); x++) {
                 Location location = island.getLocation(x, y);
 
                 location.getAnimals().forEach((type, animals) -> {
-                    int n = animals.size();
-                    // Якщо клітинка вже заповнена більше ніж на 80%, ніхто не народжується
-                    if (n > type.getMaxCount() * 0.8) {
-                        return;
-                    }
-                    if (n >= 2) {
-                        int pairs = n / 2;
-                        int newBornsTotal = 0;
-
-                        // Визначаємо максимальний приплід для виду
-                        int maxLitter = getMaxLitterSize(type);
-
-                        for (int i = 0; i < pairs; i++) {
-                            // 50% шанс, що пара дасть потомство
-                            if (random.nextBoolean()) {
-                                // Кожна пара дає від 1 до maxLitter дітей
-                                newBornsTotal += random.nextInt(1, maxLitter + 1);
-                            }
-                        }
-
-                        int spaceLeft = type.getMaxCount() - n;
-                        int actuallyToAdd = Math.min(newBornsTotal, spaceLeft);
-
-                        for (int i = 0; i < actuallyToAdd; i++) {
-                            location.addAnimal(createAnimal(type));
-                        }
-                    }
+                    if (animals.isEmpty()) return;
+                    Animal representative = animals.get(0);
+                    representative.reproduce(location, settings);
                 });
             }
         }
     }
 
-    // Допоміжний метод для визначення плодючості
-    private int getMaxLitterSize(Type type) {
-        return switch (type) {
-            case CATERPILLAR -> 10;
-            case MOUSE -> 4;
-            case RABBIT -> 3;
-            case DUCK -> 3;
-            case GOAT, SHEEP, DEER -> 2;
-            default -> 1; // Хижаки та великі звірі - по 1
-        };
-    }
-
+    // Формує та виконує завдання для кожної тварини через пул потоків
     private void runAnimalTasks() {
         List<Callable<Void>> tasks = new ArrayList<>();
         for (int y = 0; y < island.getHeight(); y++) {
             for (int x = 0; x < island.getWidth(); x++) {
                 Location location = island.getLocation(x, y);
-                final int lx = x, ly = y;
-                location.getAnimals().forEach((type, animals) -> {
-                    new ArrayList<>(animals).forEach(animal -> {
-                        tasks.add(() -> {
-                            new AnimalTask(island, location, lx, ly, animal).run();
+                final int lx = x;
+                final int ly = y;
+                location.getAnimals().forEach((type, animals) ->
+                        new ArrayList<>(animals).forEach(animal -> tasks.add(() -> {
+                            new AnimalTask(island, location, lx, ly, animal, settings).run();
                             return null;
-                        });
-                    });
-                });
+                        }))
+                );
             }
         }
         try { executorService.invokeAll(tasks); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
     }
 
-    private Animal createAnimal(Type type) {
-        try {
-            String name = type.name().toLowerCase();
-            String className = "com.ua.rush.modul2.animals."
-                    + name.substring(0, 1).toUpperCase() + name.substring(1);
-            return (Animal) Class.forName(className).getDeclaredConstructor().newInstance();
-        } catch (Exception e) { return null; }
-    }
-
-    private void runPlantTasks() { PlantTask.run(island); }
-    private void sleepTick() { try { Thread.sleep(settings.getTickDurationMs()); } catch (InterruptedException ignored) {} }
+    // Запускає оновлення рослин на острові
+    private void runPlantTasks() { PlantTask.run(island, settings); }
 }

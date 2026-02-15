@@ -3,7 +3,11 @@ package com.ua.rush.modul2;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PlantTask {
-    public static void run(Island island) {
+    // Утилітний клас для оновлення рослинності на острові
+    private PlantTask() {}
+
+    // Виконує цикл росту/самосіву рослин по всіх локаціях
+    public static void run(Island island, Settings settings) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int maxPlants = Type.PLANT.getMaxCount();
 
@@ -13,14 +17,10 @@ public class PlantTask {
                 int current = location.getPlants();
 
                 if (current > 0) {
-                    // Традиційний ріст: +25% від поточної кількості
-//                    int growth = Math.max(10, current / 4);
-                    int growth = Math.max(10, current / 2); // Збільшено темп росту до 50%
+                    int growth = Math.max(settings.getPlantGrowthMin(), (int) Math.round(current * settings.getPlantGrowthFactor()));
                     location.growPlants(growth, maxPlants);
                 } else {
-                    // САМОПОСІВ: якщо на сусідній клітинці багато трави,
-                    // вітер може занести насіння (шанс 15%)
-                    if (hasGreenNeighbor(island, x, y) && random.nextInt(100) < 15) {
+                    if (hasGreenNeighbor(island, x, y, settings) && random.nextInt(100) < settings.getPlantSelfSowChancePercent()) {
                         location.growPlants(random.nextInt(5, 15), maxPlants);
                     }
                 }
@@ -28,14 +28,15 @@ public class PlantTask {
         }
     }
 
-    private static boolean hasGreenNeighbor(Island island, int x, int y) {
-        // Перевірка сусідніх клітинок
+    // Перевіряє чи є сусідня локація з достатньою кількістю рослин
+    private static boolean hasGreenNeighbor(Island island, int x, int y, Settings settings) {
         int[] dx = {-1, 1, 0, 0};
         int[] dy = {0, 0, -1, 1};
         for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i], ny = y + dy[i];
+            int nx = x + dx[i];
+            int ny = y + dy[i];
             if (nx >= 0 && nx < island.getWidth() && ny >= 0 && ny < island.getHeight()) {
-                if (island.getLocation(nx, ny).getPlants() > 100) return true;
+                if (island.getLocation(nx, ny).getPlants() > settings.getPlantNeighborGreenThreshold()) return true;
             }
         }
         return false;

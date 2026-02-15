@@ -6,9 +6,13 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class StatisticsPrinter {
+    // Статичний клас для друку статистики острова в консоль та файл
 
+    // Метод друкує підсумкову статистику за поточний тик
     public static void print(Island island, int tick, BufferedWriter writer) {
+        // Зберігає кількість тварин по типах
         Map<Type, Integer> stats = new EnumMap<>(Type.class);
+        // Загальна кількість рослин на острові
         int totalPlants = 0;
 
         for (Location[] row : island.getLocations()) {
@@ -31,10 +35,10 @@ public class StatisticsPrinter {
 
         String output = sb.toString();
 
-        // 1. Консоль
+        // Виводимо статистику в консоль
         System.out.print(output);
 
-        // 2. Файл (якщо writer не null)
+        // Якщо передано writer — записуємо в файл
         if (writer != null) {
             try {
                 writer.write(output);

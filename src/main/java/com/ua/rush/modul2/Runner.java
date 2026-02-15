@@ -3,17 +3,18 @@ package com.ua.rush.modul2;
 import java.util.Scanner;
 
 public class Runner {
-    public static final String EXIT_TEXT = "Exiting...";
-    private boolean running = true;
-    private final Scanner scanner = new Scanner(System.in);
+    public static final String EXIT_TEXT = "Exiting..."; // Текст при виході
+    private boolean running = true; // Стан головного циклу
+    private final Scanner scanner = new Scanner(System.in); // Сканер для вводу користувача
 
-
+    // Головний цикл запуску меню
     public void run() {
         while (running) {
             mainMenu();
         }
     }
 
+    // Відображає головне меню та обробляє вибір
     private void mainMenu() {
         String menu = """
                 Choose an option:
@@ -50,6 +51,7 @@ public class Runner {
         }
     }
 
+    // Зчитування вибору з меню з валідацією
     private int readMenuChoice(String menu) {
         while (true) {
             System.out.println(menu);

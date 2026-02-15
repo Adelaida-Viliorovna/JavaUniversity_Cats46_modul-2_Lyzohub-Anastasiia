@@ -1,29 +1,30 @@
 package com.ua.rush.modul2;
 
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Herbivore extends Animal {
+    // Базовий клас для травоїдних
     protected Herbivore(Type type) {
         super(type);
     }
 
+    // Логіка годування травоїдного: спочатку дрібні тварини/комахи, потім рослини
     @Override
-    public void eat(Location location) {
-        if (!isHungry()) return;
+    public void eat(Location location, Settings settings) {
+        if (!isHungry(settings)) return;
 
-        // 1. Спроба поїсти комах/дрібних тварин (Качка, Миша, Кабан)
+        // Скільки дрібного м'яса можна з'їсти за тик
         int meatKills = 0;
-        int MAX_MEAT_KILLS = 5; // Качка може з'їсти до 5 гусенів за такт
+        int maxMeatKills = settings.getMaxHerbivoreMeatKillsPerTick();
 
-        while (isHungry() && meatKills < MAX_MEAT_KILLS) {
+        while (isHungry(settings) && meatKills < maxMeatKills) {
             boolean killed = false;
             for (var entry : location.getAnimals().entrySet()) {
                 int chance = EatTable.getChance(this.type, entry.getKey());
                 if (chance > 0 && !entry.getValue().isEmpty()) {
                     if (ThreadLocalRandom.current().nextInt(100) < chance) {
                         Animal victim = entry.getValue().get(0);
-                        this.satiety = Math.min(type.foodNeeded, this.satiety + victim.getType().getWeight());
+                        this.satiety = Math.min(type.getFoodNeeded(), this.satiety + victim.getType().getWeight());
                         location.removeAnimal(victim);
                         meatKills++;
                         killed = true;
@@ -31,13 +32,13 @@ public abstract class Herbivore extends Animal {
                     }
                 }
             }
-            if (!killed) break; // Більше немає кого їсти
+            if (!killed) break; // Немає більше їжі з тварин
         }
 
-        // 2. Якщо все ще голодний — "доганяємося" травою
-        while (isHungry() && location.getPlants() > 0) {
+        // Доїдаємо травою до насичення або поки є рослини
+        while (isHungry(settings) && location.getPlants() > 0) {
             if (location.consumePlant()) {
-                this.satiety = Math.min(type.foodNeeded, this.satiety + 0.5);
+                this.satiety = Math.min(type.getFoodNeeded(), this.satiety + settings.getPlantSatietyValue());
                 this.hasEatenThisTick = true;
             } else {
                 break;

@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class EatTable {
 
+    // Таблиця шансів (%) хижак -> жертва
     private static final Map<Type, Map<Type, Integer>> TABLE = new HashMap<>();
 
     static {
@@ -87,6 +88,7 @@ public class EatTable {
         ));
     }
 
+    // Повертає шанс у відсотках, що хижак з'їсть жертву
     public static int getChance(Type predator, Type prey) {
         return TABLE.getOrDefault(predator, Map.of())
                 .getOrDefault(prey, 0);

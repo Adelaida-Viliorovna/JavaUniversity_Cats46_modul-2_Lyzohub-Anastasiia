@@ -18,11 +18,22 @@ public enum Type {
     CATERPILLAR("🐛", 0.01, 1000, 0, 5, 3),
     PLANT("🌿", 1, 200, 0, 0, 0);
 
+    // emoji для відображення виду
     protected final String emoji;
+
+    // середня вага виду (використовується як джерело "їжі")
     protected final double weight;
+
+    // максимальна кількість індивідуумів виду в одній клітинці
     protected final int maxCount;
+
+    // швидкість пересування (максимальна відстань в тиках)
     protected final int speed;
+
+    // скільки їжі потрібно виду (за одиницю, умовна величина)
     protected final double foodNeeded;
+
+    // максимально припустимий вік виду (в тиках)
     protected final int maxAge;
 
     Type(String emoji, double weight, int maxCount, int speed, double foodNeeded, int maxAge) {
@@ -34,26 +45,32 @@ public enum Type {
         this.maxAge = maxAge;
     }
 
+    // Повертає emoji виду
     public String getEmoji() {
         return emoji;
     }
 
+    // Повертає вагу виду (використовується при годуванні)
     public double getWeight() {
         return weight;
     }
 
+    // Повертає максимальну кількість у клітинці
     public int getMaxCount() {
         return maxCount;
     }
 
+    // Повертає швидкість виду
     public int getSpeed() {
         return speed;
     }
 
+    // Скільки їжі потрібно виду
     public double getFoodNeeded() {
         return foodNeeded;
     }
 
+    // Максимальний вік виду
     public int getMaxAge() {
         return maxAge;
     }
