@@ -23,12 +23,14 @@ public abstract class Herbivore extends Animal {
                 int chance = EatTable.getChance(this.type, entry.getKey());
                 if (chance > 0 && !entry.getValue().isEmpty()) {
                     if (ThreadLocalRandom.current().nextInt(100) < chance) {
-                        Animal victim = entry.getValue().get(0);
-                        this.satiety = Math.min(type.getFoodNeeded(), this.satiety + victim.getType().getWeight());
-                        location.removeAnimal(victim);
-                        meatKills++;
-                        killed = true;
-                        this.hasEatenThisTick = true;
+                        Animal victim = entry.getValue().stream().findFirst().orElse(null);
+                        if (victim != null) {
+                            this.satiety = Math.min(type.getFoodNeeded(), this.satiety + victim.getType().getWeight());
+                            location.removeAnimal(victim);
+                            meatKills++;
+                            killed = true;
+                            this.hasEatenThisTick = true;
+                        }
                     }
                 }
             }

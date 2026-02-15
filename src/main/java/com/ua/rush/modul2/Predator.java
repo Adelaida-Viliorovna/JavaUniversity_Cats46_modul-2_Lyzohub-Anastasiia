@@ -26,15 +26,17 @@ public abstract class Predator extends Animal {
                 var list = entry.getValue();
                 if (chance > 0 && !list.isEmpty()) {
                     if (ThreadLocalRandom.current().nextInt(100) < chance) {
-                        Animal victim = list.get(0);
-                        this.satiety = Math.min(type.getFoodNeeded(), this.satiety + victim.getType().getWeight());
-                        location.removeAnimal(victim);
+                        Animal victim = list.stream().findFirst().orElse(null);
+                        if (victim != null) {
+                            this.satiety = Math.min(type.getFoodNeeded(), this.satiety + victim.getType().getWeight());
+                            location.removeAnimal(victim);
 
-                        killsThisTick++;
-                        foundFood = true;
-                        this.hasEatenThisTick = true;
+                            killsThisTick++;
+                            foundFood = true;
+                            this.hasEatenThisTick = true;
 
-                        if (!isHungry(settings)) break;
+                            if (!isHungry(settings)) break;
+                        }
                     }
                 }
             }

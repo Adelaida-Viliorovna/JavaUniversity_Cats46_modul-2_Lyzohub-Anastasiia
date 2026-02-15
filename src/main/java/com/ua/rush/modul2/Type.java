@@ -19,22 +19,22 @@ public enum Type {
     PLANT("🌿", 1, 200, 0, 0, 0);
 
     // emoji для відображення виду
-    protected final String emoji;
+    private final String emoji;
 
     // середня вага виду (використовується як джерело "їжі")
-    protected final double weight;
+    private final double weight;
 
     // максимальна кількість індивідуумів виду в одній клітинці
-    protected final int maxCount;
+    private final int maxCount;
 
     // швидкість пересування (максимальна відстань в тиках)
-    protected final int speed;
+    private final int speed;
 
     // скільки їжі потрібно виду (за одиницю, умовна величина)
-    protected final double foodNeeded;
+    private final double foodNeeded;
 
     // максимально припустимий вік виду (в тиках)
-    protected final int maxAge;
+    private final int maxAge;
 
     Type(String emoji, double weight, int maxCount, int speed, double foodNeeded, int maxAge) {
         this.emoji = emoji;

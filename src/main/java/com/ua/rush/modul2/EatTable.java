@@ -1,14 +1,16 @@
 package com.ua.rush.modul2;
 
-import com.ua.rush.modul2.Type;
-
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class EatTable {
 
     // Таблиця шансів (%) хижак -> жертва
-    private static final Map<Type, Map<Type, Integer>> TABLE = new HashMap<>();
+    private static final Map<Type, Map<Type, Integer>> TABLE = new EnumMap<>(Type.class);
+
+    private EatTable() {
+        // утилітний клас, не дозволяємо створювати екземпляри
+    }
 
     static {
         TABLE.put(Type.WOLF, Map.of(

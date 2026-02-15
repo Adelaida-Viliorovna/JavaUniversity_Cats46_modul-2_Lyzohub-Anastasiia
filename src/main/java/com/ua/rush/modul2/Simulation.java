@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,22 +34,49 @@ public class Simulation {
 
         AtomicInteger currentTick = new AtomicInteger(1);
 
+        final AtomicReference<java.io.BufferedWriter> writerRef = new AtomicReference<>();
+
+        // Add a shutdown hook to try to close resources if the JVM exits unexpectedly
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                if (!mainScheduledPool.isShutdown()) {
+                    mainScheduledPool.shutdownNow();
+                }
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Помилка під час завершення планувальника у shutdown hook", e);
+            }
+            try {
+                if (!executorService.isShutdown()) {
+                    executorService.shutdownNow();
+                }
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Помилка під час завершення пулу потоків у shutdown hook", e);
+            }
+            java.io.BufferedWriter w = writerRef.getAndSet(null);
+            if (w != null) {
+                try { w.close(); } catch (java.io.IOException e) { LOGGER.log(Level.SEVERE, "Помилка закриття файлу у shutdown hook", e); }
+            }
+        }));
+
         try {
             java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.FileWriter(fileName));
+            writerRef.set(writer);
             StatisticsPrinter.print(island, 0, writer);
 
             Runnable tickTask = () -> {
                 int tick = currentTick.getAndIncrement();
 
                 if (tick > settings.getMaxTicks()) {
-                    mainScheduledPool.shutdown();
-                    executorService.shutdown();
-
                     try {
-                        writer.close();
-                    } catch (java.io.IOException e) {
-                        LOGGER.log(Level.SEVERE, "Помилка закриття файлу", e);
+                        java.io.BufferedWriter w = writerRef.getAndSet(null);
+                        if (w != null) {
+                            try { w.close(); } catch (java.io.IOException e) { LOGGER.log(Level.SEVERE, "Помилка закриття файлу", e); }
+                        }
+                    } finally {
+                        mainScheduledPool.shutdown();
+                        executorService.shutdown();
                     }
+
                     LOGGER.info("Симуляцію завершено!");
                     return;
                 }
@@ -58,7 +86,7 @@ public class Simulation {
                 runReproductionTasks();
                 runPlantTasks();
 
-                StatisticsPrinter.print(island, tick, writer);
+                StatisticsPrinter.print(island, tick, writerRef.get());
             };
 
             mainScheduledPool.scheduleAtFixedRate(
@@ -70,8 +98,20 @@ public class Simulation {
 
         } catch (java.io.IOException e) {
             LOGGER.log(Level.SEVERE, "Не вдалося створити файл звіту", e);
-            mainScheduledPool.shutdown();
-            executorService.shutdown();
+            try {
+                mainScheduledPool.shutdown();
+            } catch (Exception e2) {
+                LOGGER.log(Level.WARNING, "Помилка при вимкненні планувальника після помилки створення файлу", e2);
+            }
+            try {
+                executorService.shutdown();
+            } catch (Exception e2) {
+                LOGGER.log(Level.WARNING, "Помилка при вимкненні пулу потоків після помилки створення файлу", e2);
+            }
+            java.io.BufferedWriter w = writerRef.getAndSet(null);
+            if (w != null) {
+                try { w.close(); } catch (java.io.IOException ex) { LOGGER.log(Level.SEVERE, "Помилка закриття файлу після помилки створення", ex); }
+            }
         }
     }
 
@@ -124,8 +164,10 @@ public class Simulation {
 
                 location.getAnimals().forEach((type, animals) -> {
                     if (animals.isEmpty()) return;
-                    Animal representative = animals.get(0);
-                    representative.reproduce(location, settings);
+                    Animal representative = animals.stream().findFirst().orElse(null);
+                    if (representative != null) {
+                        representative.reproduce(location, settings);
+                    }
                 });
             }
         }

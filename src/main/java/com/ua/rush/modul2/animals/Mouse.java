@@ -26,11 +26,13 @@ public class Mouse extends Herbivore {
             if (chance <= 0 || list.isEmpty()) continue;
 
             if (RandomUtil.checkChance(chance)) {
-                Animal victim = list.get(0);
-                location.removeAnimal(victim);
-                this.satiety = Math.min(type.getFoodNeeded(), this.satiety + victim.getType().getWeight());
-                this.hasEatenThisTick = true;
-                return;
+                Animal victim = list.stream().findFirst().orElse(null);
+                if (victim != null) {
+                    location.removeAnimal(victim);
+                    this.satiety = Math.min(type.getFoodNeeded(), this.satiety + victim.getType().getWeight());
+                    this.hasEatenThisTick = true;
+                    return;
+                }
             }
         }
 
